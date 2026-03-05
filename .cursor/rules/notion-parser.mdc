@@ -1,0 +1,34 @@
+---
+description: Notion HTML parsing and rendering rules
+rule_type: auto_attached
+globs: ["src/lib/notion/**/*.ts", "src/components/notion-blocks/**/*.tsx"]
+---
+
+# Notion Parser Rules
+
+## Fetching
+- Always use Playwright headless browser (not HTTP GET) for notion.site URLs
+- Wait for [data-block-id] elements to confirm content rendered
+- Set 30-second timeout on page load
+- Close browser instance after extraction
+
+## Parsing
+- Use Cheerio for HTML parsing (not regex)
+- Identify blocks by data-block-id attribute and Notion CSS class patterns
+- Build a tree structure preserving parent-child relationships
+- Store parsed blocks as JSONB in PostgreSQL
+- Generate SHA-256 content hash for change detection
+
+## Block Types
+- Each block type has a corresponding TypeScript interface in src/types/notion.ts
+- All block interfaces extend a base NotionBlock interface with: id, type, has_children, children
+- Rich text stored as array of RichTextSegment objects with text + annotations
+
+## Rendering
+- Each block type has one React component in src/components/notion-blocks/
+- block-renderer.tsx dispatches to correct component based on block.type
+- Renderers are Server Components (no client JS) unless interactivity required
+- Consecutive list items must be grouped into wrapper elements (ul, ol)
+- Nested blocks render recursively through block-renderer
+- Unknown block types render unsupported-block.tsx with link to original Notion page
+

@@ -1,0 +1,40 @@
+---
+description: Next.js App Router patterns
+rule_type: auto_attached
+globs: ["src/app/**/*.tsx", "src/app/**/*.ts"]
+---
+
+# Next.js Conventions
+
+## Server Components (default)
+- Pages and layouts are Server Components by default
+- Fetch data directly in the component using async/await
+- Use generateMetadata() for page-level SEO meta tags
+- Use generateStaticParams() for static path generation
+
+## Client Components
+- Add "use client" directive only when needed (useState, useEffect, onClick handlers, browser APIs)
+- Keep client components as small as possible
+- Lift data fetching to parent Server Components, pass as props
+
+## Route Handlers
+- Located in src/app/api/[route]/route.ts
+- Export named functions: GET, POST, PATCH, DELETE
+- Always validate request body with Zod
+- Always check authentication with getServerSession()
+- Return typed NextResponse.json()
+
+## Layouts
+- Layouts do not re-render on navigation
+- Use layouts for persistent UI (sidebars, headers)
+- Dashboard layout handles auth redirect
+
+## Loading and Error States
+- loading.tsx for Suspense fallbacks
+- error.tsx for error boundaries (must be client component)
+- not-found.tsx for 404 pages
+
+## Middleware
+- src/middleware.ts handles: auth redirects, custom domain routing
+- Keep middleware light (runs on every request)
+

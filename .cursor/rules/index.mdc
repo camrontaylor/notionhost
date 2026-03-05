@@ -1,0 +1,58 @@
+---
+description: Global project rules for NotionHost
+rule_type: always
+---
+
+# NotionHost Project Rules
+
+## Tech Stack
+- Next.js 15 with App Router and Server Components
+- TypeScript in strict mode
+- Tailwind CSS 4 for styling
+- shadcn/ui for component primitives
+- Drizzle ORM with PostgreSQL
+- NextAuth.js v5 for authentication
+- Stripe for payments
+- Upstash Redis for caching
+- Zod for runtime validation
+
+## Code Conventions
+- All files use TypeScript (.ts or .tsx)
+- Use named exports, not default exports (exception: Next.js page/layout components)
+- Use "function" keyword for components, not arrow functions
+- Prefix server-only files with "use server" directive
+- Prefix client components with "use client" directive
+- All API routes return typed JSON responses
+- All database queries go in src/lib/db/queries/ files
+- All Zod schemas go in src/lib/utils/validation.ts or co-located with their API route
+- Never use "any" type. Use "unknown" and narrow with type guards.
+- Error messages should be user-friendly strings, not raw error objects
+
+## File Naming
+- Components: PascalCase (SiteCard.tsx)
+- Utilities and lib files: kebab-case (rate-limit.ts)
+- Types: PascalCase in files, files are kebab-case (src/types/notion.ts)
+
+## Import Order
+1. React/Next.js imports
+2. Third-party library imports
+3. Internal lib imports (@/lib/...)
+4. Internal component imports (@/components/...)
+5. Type imports (import type { ... })
+
+## Response Patterns
+- API routes: return NextResponse.json({ data }) or NextResponse.json({ error: "message" }, { status: 4xx })
+- Server actions: return { success: true, data } or { success: false, error: "message" }
+- Never expose database IDs in error messages
+- Never expose stack traces in production responses
+
+## Testing
+- Unit tests: Vitest, co-located as [file].test.ts
+- E2E tests: Playwright, in tests/ directory
+- Test file naming: [feature].test.ts or [feature].spec.ts
+
+## Git
+- Commit messages: conventional commits (feat:, fix:, chore:, docs:, refactor:)
+- Branch naming: feature/[name], fix/[name], chore/[name]
+- Always commit working state before starting new features
+

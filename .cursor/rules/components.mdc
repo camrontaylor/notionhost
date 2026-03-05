@@ -1,0 +1,33 @@
+---
+description: Component creation patterns
+rule_type: auto_attached
+globs: ["src/components/**/*.tsx"]
+---
+
+# Component Rules
+
+## Structure
+- One component per file
+- Props interface defined above the component
+- Destructure props in function signature
+- Use cn() from @/lib/utils for conditional class merging
+
+## Styling
+- Use Tailwind CSS classes exclusively (no inline styles, no CSS modules)
+- Follow mobile-first responsive design
+- Use CSS custom properties for theme values (colors, spacing) that change between themes
+- Dark mode: use Tailwind dark: variant
+
+## Accessibility
+- All interactive elements must have appropriate ARIA attributes
+- Images must have alt text
+- Form inputs must have associated labels
+- Focus states must be visible
+- Color contrast must meet WCAG AA (4.5:1 for text, 3:1 for large text)
+
+## Performance
+- Prefer Server Components (no "use client" unless needed)
+- Lazy load below-fold content
+- Use next/image for all images
+- Minimize JavaScript bundle: no unnecessary client-side libraries
+

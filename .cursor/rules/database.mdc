@@ -1,0 +1,28 @@
+---
+description: Database and Drizzle ORM patterns
+rule_type: auto_attached
+globs: ["src/lib/db/**/*.ts", "drizzle/**/*"]
+---
+
+# Database Conventions
+
+## Schema
+- All table definitions in src/lib/db/schema.ts
+- Use pgTable from drizzle-orm/pg-core
+- All tables include id (UUID), created_at, updated_at columns
+- Foreign keys use ON DELETE CASCADE
+- Add indexes for frequently queried columns
+
+## Queries
+- All query functions in src/lib/db/queries/[table].ts
+- Export named async functions (getUserByEmail, createSite, etc.)
+- Always return typed results
+- Use prepared statements for frequent queries
+- Use transactions for multi-table operations
+
+## Migrations
+- Generate with: pnpm drizzle-kit generate
+- Apply with: pnpm drizzle-kit migrate
+- Never modify generated migration files manually
+- Always verify migration SQL before applying to production
+
